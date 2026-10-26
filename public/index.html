@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#007f80"><title>MAKNAZUL 'IRFAN | Bills & Services</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+    <div class="brand"><div class="brand-mark">MI</div><div><strong>MAKNAZUL 'IRFAN</strong><small>BILLS & SERVICES</small></div></div>
+    <button class="wallet" id="walletBtn" aria-label="Wallet"><span>▣</span><b>Wallet</b></button>
+    <button class="icon-btn profile-btn" id="profileBtn" aria-label="Profile">♙</button>
+  </header>
+  <div class="scrim" id="scrim"></div>
+  <aside class="sidebar" id="sidebar">
+    <div class="side-brand"><div class="brand-mark">MI</div><div><strong>MAKNAZUL 'IRFAN</strong><small>Academy Service Portal</small></div></div>
+    <button class="nav-item active" data-page="home">⌂ <span>Dashboard</span></button>
+    <div class="nav-heading">EDUCATIONAL SERVICES</div>
+    <button class="nav-item" data-category="education">▤ <span>All Educational Bills</span></button>
+    <button class="nav-item" data-service="waec">▣ <span>WAEC Scratch Card</span></button>
+    <button class="nav-item" data-service="jamb">▱ <span>JAMB PIN Vending</span></button>
+    <button class="nav-item" data-service="neco">▣ <span>NECO Services</span></button>
+    <button class="nav-item" data-service="nabteb">▣ <span>NABTEB Services</span></button>
+    <button class="nav-item" data-service="schoolfees">▤ <span>School Fees</span></button>
+    <button class="nav-item" data-service="admission">✓ <span>Acceptance Fees</span></button>
+    <div class="nav-heading">OTHER SERVICES</div>
+    <button class="nav-item" data-category="utilities">ϟ <span>Utilities & Bills</span></button>
+    <button class="nav-item" data-service="data">⌁ <span>Data Subscription</span></button>
+    <button class="nav-item" data-service="electricity">ϟ <span>Electricity Bills</span></button>
+    <button class="nav-item" data-service="tv">▣ <span>TV Subscriptions</span></button>
+    <button class="nav-item" data-page="transactions">☷ <span>Transaction History</span></button>
+    <button class="nav-item" data-page="support">ⓘ <span>Support</span></button>
+    <div class="side-footer">Secure service portal<br><small>Payments require an approved provider.</small></div>
+  </aside>
+  <main class="main" id="main">
+    <section class="welcome-row"><div><p class="eyebrow">WELCOME TO YOUR SERVICE HUB</p><h1 id="pageTitle">Bills and Services</h1><p class="muted" id="pageSubtitle">Access educational pins, examination services and everyday bill payments in one place.</p></div><div class="date-pill">● Service portal</div></section>
+    <section class="notice"><div class="notice-icon">✓</div><div><strong>MAKNAZUL 'IRFAN Service Centre</strong><p>Convenient access to educational services and essential bill categories.</p></div></section>
+    <section class="stats-grid"><div class="stat-card"><span class="stat-icon teal">▤</span><div><small>EDUCATIONAL SERVICES</small><strong>06+</strong><p>Exam and school payments</p></div></div><div class="stat-card"><span class="stat-icon orange">ϟ</span><div><small>UTILITY SERVICES</small><strong>03+</strong><p>Everyday subscriptions</p></div></div><div class="stat-card"><span class="stat-icon purple">☷</span><div><small>YOUR ACTIVITY</small><strong id="activityCount">0</strong><p>Saved demo transactions</p></div></div></section>
+    <section class="section-head"><div><h2>Educational Services</h2><p>Choose a service to continue.</p></div><button class="text-btn" id="seeAllEducation">View all →</button></section>
+    <section class="services-grid" id="educationGrid"></section>
+    <section class="section-head"><div><h2>Utilities & Subscriptions</h2><p>More services for your everyday needs.</p></div><button class="text-btn" id="seeAllUtilities">View all →</button></section>
+    <section class="services-grid" id="utilityGrid"></section>
+    <section class="section-head"><div><h2>Quick access</h2><p>Manage your activity and get help.</p></div></section>
+    <section class="quick-grid"><button class="quick-card" data-page="transactions"><span>☷</span><div><strong>Transaction history</strong><small>Review saved demo activity</small></div><b>›</b></button><button class="quick-card" data-page="support"><span>ⓘ</span><div><strong>Support centre</strong><small>Questions about a service?</small></div><b>›</b></button></section>
+    <footer>© <span id="year"></span> MAKNAZUL 'IRFAN ACADEMY · Know Me before you worship Me<br><small>Prototype only. No real payment is collected or processed.</small></footer>
+  </main>
+  <div class="modal-backdrop" id="modalBackdrop"><section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><button class="close-btn" id="closeModal" aria-label="Close">×</button><div id="modalContent"></div></section></div>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="app.js"></script>
+</body></html>
