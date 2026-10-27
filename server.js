@@ -4,6 +4,7 @@ const crypto = require('crypto');
 try { require('dotenv').config(); } catch (_) {}
 const app = express();
 const PORT = process.env.PORT || 3000;
+app.set('trust proxy', 1);
 app.use(express.json({ limit: '30kb' }));
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -112,4 +113,9 @@ function sanitizeDetails(details) {
   return safe;
 }
 
-app.listen(PORT, '0.0.0.0', () => console.log(`Maknazul Irfan Bills running on port ${PORT}`));
+// Run a normal server locally (npm start); on Vercel the exported app is used instead.
+if (require.main === module) {
+  app.listen(PORT, '0.0.0.0', () => console.log(`Maknazul Irfan Bills running on port ${PORT}`));
+}
+
+module.exports = app;
