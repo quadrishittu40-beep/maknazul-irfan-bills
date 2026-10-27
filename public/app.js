@@ -1,31 +1,213 @@
-const services = [
- {id:'waec',name:'WAEC Scratch Card',desc:'Access WAEC result-checking PIN services.',icon:'▣',tone:'orange',group:'education',fields:[{label:'Examination year',name:'year',type:'select',options:['2026','2025','2024','2023','2022']},{label:'Quantity',name:'quantity',type:'select',options:['1','2','3','5']} ]},
- {id:'jamb',name:'JAMB PIN Vending',desc:'Purchase a UTME registration PIN through an authorized provider.',icon:'✎',tone:'purple',group:'education',fields:[{label:'Exam year',name:'year',type:'select',options:['2027','2026','2025']},{label:'Candidate phone number',name:'phone',type:'tel',placeholder:'08012345678'}]},
- {id:'neco',name:'NECO Services',desc:'Result-checking tokens and available NECO services.',icon:'▤',tone:'teal',group:'education',fields:[{label:'Service type',name:'type',type:'select',options:['Result-checking token','Other NECO service']},{label:'Quantity',name:'quantity',type:'select',options:['1','2','3','5']} ]},
- {id:'nabteb',name:'NABTEB Services',desc:'Explore NABTEB examination and result services.',icon:'▣',tone:'orange',group:'education',fields:[{label:'Service type',name:'type',type:'select',options:['Result-checking token','Other NABTEB service']}]},
- {id:'schoolfees',name:'School Fees',desc:'Organize school fee payments for participating institutions.',icon:'▤',tone:'teal',group:'education',fields:[{label:'Institution name',name:'institution',type:'text',placeholder:'Enter institution name'},{label:'Student reference / ID',name:'reference',type:'text',placeholder:'Enter student ID'}]},
- {id:'admission',name:'Acceptance Fees',desc:'Acceptance fee payment for supported schools.',icon:'✓',tone:'purple',group:'education',fields:[{label:'Institution name',name:'institution',type:'text',placeholder:'Enter institution name'},{label:'Applicant reference',name:'reference',type:'text',placeholder:'Enter application number'}]},
- {id:'data',name:'Data Subscription',desc:'Mobile data for supported Nigerian networks.',icon:'⌁',tone:'teal',group:'utilities',fields:[{label:'Network',name:'network',type:'select',options:['MTN','Airtel','Glo','9mobile']},{label:'Phone number',name:'phone',type:'tel',placeholder:'08012345678'},{label:'Data plan',name:'plan',type:'select',options:['Choose plan after provider integration']}]},
- {id:'electricity',name:'Electricity Bills',desc:'Electricity token and bill payment for supported providers.',icon:'ϟ',tone:'orange',group:'utilities',fields:[{label:'Distribution company',name:'disco',type:'select',options:['IKEDC','EKEDC','AEDC','IBEDC','Other']},{label:'Meter type',name:'meter',type:'select',options:['Prepaid','Postpaid']},{label:'Meter number',name:'meterNo',type:'text',placeholder:'Enter meter number'}]},
- {id:'tv',name:'TV Subscriptions',desc:'Renew supported satellite and television packages.',icon:'▣',tone:'purple',group:'utilities',fields:[{label:'Provider',name:'provider',type:'select',options:['DStv','GOtv','Startimes']},{label:'Smartcard / IUC number',name:'smartcard',type:'text',placeholder:'Enter decoder number'},{label:'Package',name:'package',type:'text',placeholder:'Enter package name'}]}
-];
-const $ = id => document.getElementById(id);
-const modalBackdrop=$('modalBackdrop'), modalContent=$('modalContent'), toast=$('toast');
-let selectedService=null;
-function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-function getTransactions(){try{return JSON.parse(localStorage.getItem('mia_bill_transactions')||'[]')}catch{return []}}
-function saveTransactions(items){localStorage.setItem('mia_bill_transactions',JSON.stringify(items));$('activityCount').textContent=items.length}
-function card(s){return `<button class="service-card" data-open-service="${s.id}"><span class="service-icon ${s.tone}">${s.icon}</span><strong>${s.name}</strong><p>${s.desc}</p><span class="service-bottom"><span>Explore service</span><span>→</span></span></button>`}
-function renderHome(){ $('educationGrid').innerHTML=services.filter(s=>s.group==='education').map(card).join('');$('utilityGrid').innerHTML=services.filter(s=>s.group==='utilities').map(card).join('');$('activityCount').textContent=getTransactions().length;bindCards();}
-function bindCards(){document.querySelectorAll('[data-open-service]').forEach(b=>b.addEventListener('click',()=>openService(b.dataset.openService)));document.querySelectorAll('[data-service]').forEach(b=>b.addEventListener('click',()=>openService(b.dataset.service)));document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));document.querySelectorAll('[data-category]').forEach(b=>b.addEventListener('click',()=>showCategory(b.dataset.category)));}
-function openService(id){selectedService=services.find(s=>s.id===id);if(!selectedService)return;modalContent.innerHTML=`<p class="eyebrow">MAKNAZUL 'IRFAN SERVICE PORTAL</p><h2 id="modalTitle">${selectedService.name}</h2><p class="intro">${selectedService.desc} Enter the details needed for your request.</p><form id="serviceForm"><div class="form-row"><label for="f_email">Email address for Paystack receipt</label><input id="f_email" name="email" type="email" placeholder="you@example.com" required></div>${selectedService.fields.map(f=>`<div class="form-row"><label for="f_${f.name}">${f.label}</label>${f.type==='select'?`<select id="f_${f.name}" name="${f.name}" required>${f.options.map((o,i)=>`<option value="${esc(o)}" ${i===0?'selected':''}>${esc(o)}</option>`).join('')}</select>`:`<input id="f_${f.name}" name="${f.name}" type="${f.type}" placeholder="${esc(f.placeholder||'Enter '+f.label.toLowerCase())}" required>`}</div>`).join('')}<div class="warning"><strong>Paystack test mode:</strong> this checkout uses a sample test amount of ₦1,000 for every service. It does not issue examination PINs, school receipts, data, electricity tokens or TV subscriptions. Do not use this as a live bill-payment service.</div><button class="primary-btn" type="submit">Continue to Paystack test checkout</button></form>`;showModal();$('serviceForm').addEventListener('submit',e=>{e.preventDefault();const data=Object.fromEntries(new FormData(e.currentTarget).entries());const email=data.email;delete data.email;reviewRequest(data,email)});}
-async function reviewRequest(data,email){const summary=Object.entries(data).map(([k,v])=>`<div>${esc(k.replace(/([A-Z])/g,' $1'))}<span>${esc(v)}</span></div>`).join('');modalContent.innerHTML=`<p class="eyebrow">PAYMENT REVIEW</p><h2 id="modalTitle">Confirm your request</h2><p class="intro">Review your details before opening Paystack's secure test checkout.</p><div class="receipt"><strong>${esc(selectedService.name)}</strong><hr>${summary}<div>Email<span>${esc(email)}</span></div><div>Sample test amount<span>₦1,000</span></div></div><div class="warning">Test payment only. No service or digital PIN will be delivered.</div><button class="primary-btn" id="payNow">Pay with Paystack (Test)</button><button class="secondary-btn" id="backEdit">Go back</button>`;$('backEdit').addEventListener('click',()=>openService(selectedService.id));$('payNow').addEventListener('click',async()=>{const btn=$('payNow');btn.disabled=true;btn.textContent='Connecting to Paystack…';try{const response=await fetch('/api/payments/initialize',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({serviceId:selectedService.id,email,details:data})});const result=await response.json();if(!response.ok)throw new Error(result.error||'Payment initialization failed.');window.location.href=result.authorizationUrl;}catch(err){showToast(err.message);btn.disabled=false;btn.textContent='Pay with Paystack (Test)';}});} 
-async function verifyReturnedPayment(){const params=new URLSearchParams(window.location.search);if(params.get('payment')!=='verify')return;const reference=params.get('reference');if(!reference){showToast('No Paystack reference was returned.');return;}window.history.replaceState({},document.title,window.location.pathname);modalContent.innerHTML='<p class="eyebrow">PAYSTACK</p><h2 id="modalTitle">Verifying payment…</h2><p class="intro">Please wait while the server checks the transaction directly with Paystack.</p>';showModal();try{const response=await fetch('/api/payments/verify/'+encodeURIComponent(reference));const result=await response.json();if(!response.ok)throw new Error(result.error||'Verification failed.');const existing=getTransactions();if(!existing.some(t=>t.id===result.reference)){existing.unshift({id:result.reference,service:result.service,createdAt:new Date().toLocaleString(),amount:result.amount/100,status:result.verified?'Paystack test payment verified':'Not verified — do not fulfil'});saveTransactions(existing);}modalContent.innerHTML=`<div class="success-panel"><div class="success-icon">${result.verified?'✓':'!'}</div><h2 id="modalTitle">${result.verified?'Test payment verified':'Payment not verified'}</h2><p class="intro">${esc(result.message)}</p><div class="receipt">Reference<span>${esc(result.reference)}</span><br>Service<span>${esc(result.service)}</span><br>Amount<span>₦${Number(result.amount/100).toLocaleString('en-NG')}</span><br>Status<span>${esc(result.status)}</span></div><button class="primary-btn" id="doneBtn">View transactions</button></div>`;$('doneBtn').addEventListener('click',()=>{closeModal();showPage('transactions')});}catch(err){modalContent.innerHTML=`<h2 id="modalTitle">Could not verify payment</h2><p class="intro">${esc(err.message)}</p><button class="primary-btn" id="verifyDone">Close</button>`;$('verifyDone').addEventListener('click',closeModal);}}
-function showModal(){modalBackdrop.classList.add('show');document.body.style.overflow='hidden'}function closeModal(){modalBackdrop.classList.remove('show');document.body.style.overflow=''}
-function showPage(page){closeSidebar();if(page==='transactions'){ $('pageTitle').textContent='Transaction History';$('pageSubtitle').textContent='Review demo requests saved on this device.';$('educationGrid').innerHTML='';$('utilityGrid').innerHTML='';document.querySelectorAll('.section-head').forEach((x,i)=>{if(i===0){x.querySelector('h2').textContent='Saved activity';x.querySelector('p').textContent='These are local demo records only.';x.querySelector('.text-btn').style.display='none'}else{x.style.display='none'}});const items=getTransactions();$('educationGrid').innerHTML=items.length?items.map(t=>`<div class="service-card"><span class="service-icon teal">☷</span><strong>${esc(t.service)}</strong><p>${esc(t.createdAt)}<br>Reference: ${esc(t.id)}<br><b>${esc(t.status)}</b></p><span class="service-bottom"><span>Demo record</span></span></div>`).join(''):'<div class="empty-state">No demo activity yet.<br>Choose an educational or utility service to create a test record.</div>';document.querySelectorAll('.section-head')[1].style.display='none';document.querySelectorAll('.section-head')[2].style.display='none';return}
- if(page==='support'){ $('pageTitle').textContent='Support Centre';$('pageSubtitle').textContent='Get help with the MAKNAZUL IRFAN service portal.';$('educationGrid').innerHTML='<div class="service-card"><span class="service-icon teal">ⓘ</span><strong>Service enquiries</strong><p>Contact the academy administrator to ask about available services and launch updates.</p><span class="service-bottom"><span>Admin contact not configured</span></span></div><div class="service-card"><span class="service-icon orange">⚠</span><strong>Payment safety</strong><p>Never share your PIN, password, OTP or banking details in this prototype.</p></div>'; $('utilityGrid').innerHTML='';document.querySelectorAll('.section-head')[1].style.display='none';document.querySelectorAll('.section-head')[2].style.display='none';return}
- $('pageTitle').textContent='Bills and Services';$('pageSubtitle').textContent='Access educational pins, examination services and everyday bill payments in one place.';document.querySelectorAll('.section-head').forEach(x=>x.style.display='flex');document.querySelectorAll('.section-head')[0].querySelector('h2').textContent='Educational Services';document.querySelectorAll('.section-head')[0].querySelector('p').textContent='Choose a service to continue.';document.querySelectorAll('.section-head')[0].querySelector('.text-btn').style.display='';document.querySelectorAll('.section-head')[1].querySelector('h2').textContent='Utilities & Subscriptions';document.querySelectorAll('.section-head')[1].querySelector('.text-btn').style.display='';renderHome();}
-function showCategory(category){showPage('home');const list=services.filter(s=>s.group===category);$('pageTitle').textContent=category==='education'?'Educational Services':'Utilities & Bills';$('pageSubtitle').textContent='Select a service to review its requirements.';$('educationGrid').innerHTML=list.map(card).join('');$('utilityGrid').innerHTML='';document.querySelectorAll('.section-head')[1].style.display='none';document.querySelectorAll('.section-head')[2].style.display='none';bindCards()}
-function closeSidebar(){$('sidebar').classList.remove('open');$('scrim').classList.remove('show')}
-$('menuBtn').addEventListener('click',()=>{$('sidebar').classList.toggle('open');$('scrim').classList.toggle('show')});$('scrim').addEventListener('click',closeSidebar);$('closeModal').addEventListener('click',closeModal);modalBackdrop.addEventListener('click',e=>{if(e.target===modalBackdrop)closeModal()});$('seeAllEducation').addEventListener('click',()=>showCategory('education'));$('seeAllUtilities').addEventListener('click',()=>showCategory('utilities'));$('walletBtn').addEventListener('click',()=>showToast('Wallet is a placeholder. Add a compliant payment provider before enabling funding.'));$('profileBtn').addEventListener('click',()=>showToast('User accounts are not configured in this prototype.'));function showToast(message){toast.textContent=message;toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),2800)}
-$('year').textContent=new Date().getFullYear();renderHome();bindCards();verifyReturnedPayment();
+(function () {
+  'use strict';
+
+  var STORAGE_KEY = 'mia_bill_transactions';
+
+  // Dropdown value (index.html) -> service ID the server accepts
+  var SERVICE_MAP = {
+    'waec': 'waec',
+    'jamb': 'jamb',
+    'neco': 'neco',
+    'nabteb': 'nabteb',
+    'school-fees': 'schoolfees',
+    'acceptance-fees': 'admission',
+    'data': 'data',
+    'electricity': 'electricity',
+    'tv': 'tv'
+  };
+
+  function $(id) { return document.getElementById(id); }
+
+  function esc(value) {
+    return String(value == null ? '' : value).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  function setStatus(message) {
+    var el = $('paymentStatus');
+    if (el) el.textContent = message;
+  }
+
+  /* ---------- Local transaction history ---------- */
+
+  function loadTransactions() {
+    try {
+      var list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      return Array.isArray(list) ? list : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function saveTransactions(list) {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(list.slice(0, 50)));
+    } catch (e) { /* storage unavailable */ }
+  }
+
+  function upsertTransaction(tx) {
+    var list = loadTransactions();
+    var index = list.findIndex(function (t) { return t.id === tx.id; });
+    if (index >= 0) {
+      list[index] = Object.assign({}, list[index], tx);
+    } else {
+      list.unshift(tx);
+    }
+    saveTransactions(list);
+  }
+
+  function formatDate(value) {
+    var d = new Date(value);
+    return isNaN(d.getTime()) ? String(value || '') : d.toLocaleString('en-NG');
+  }
+
+  function statusLabel(status) {
+    if (status === 'verified') return '✅ Test payment verified';
+    if (status === 'failed') return '❌ Not verified';
+    if (status === 'pending') return '⏳ Awaiting payment';
+    return String(status || '');
+  }
+
+  function renderHistory() {
+    var box = $('transactionHistory');
+    if (!box) return;
+
+    var list = loadTransactions();
+    if (!list.length) {
+      box.innerHTML = '<div class="empty">No transactions yet. Complete a test payment and it will appear here.</div>';
+      return;
+    }
+
+    var rows = list.map(function (t) {
+      return '<tr>' +
+        '<td>' + esc(formatDate(t.createdAt)) + '</td>' +
+        '<td>' + esc(t.service) + '</td>' +
+        '<td>₦' + Number(t.amount || 0).toLocaleString('en-NG') + '</td>' +
+        '<td>' + esc(statusLabel(t.status)) + '</td>' +
+        '<td>' + esc(t.id) + '</td>' +
+        '</tr>';
+    }).join('');
+
+    box.innerHTML =
+      '<table><thead><tr>' +
+      '<th>Date</th><th>Service</th><th>Amount</th><th>Status</th><th>Reference</th>' +
+      '</tr></thead><tbody>' + rows + '</tbody></table>';
+  }
+
+  /* ---------- Start a payment ---------- */
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+
+    var button = $('payButton');
+    var choice = $('service').value;
+    var serviceId = SERVICE_MAP[choice];
+
+    if (!choice) {
+      setStatus('Please choose a service first.');
+      return;
+    }
+    if (!serviceId) {
+      setStatus('That service is not available in test mode yet. Please choose another one.');
+      return;
+    }
+
+    var email = $('email').value.trim();
+    var details = {
+      category: choice,
+      customerName: $('customerName').value.trim(),
+      reference: $('customerReference').value.trim(),
+      notes: $('details').value.trim()
+    };
+
+    var originalText = button.textContent;
+    button.disabled = true;
+    button.textContent = 'Connecting to Paystack…';
+    setStatus('Starting secure test checkout…');
+
+    try {
+      var response = await fetch('/api/payments/initialize', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ serviceId: serviceId, email: email, details: details })
+      });
+
+      var result = {};
+      try { result = await response.json(); } catch (e) { /* non-JSON reply */ }
+
+      if (!response.ok || !result.authorizationUrl) {
+        throw new Error(result.error || 'Could not start payment. Please try again.');
+      }
+
+      upsertTransaction({
+        id: result.reference,
+        service: result.service,
+        amount: result.amount / 100,
+        createdAt: new Date().toISOString(),
+        status: 'pending'
+      });
+
+      setStatus('Redirecting to Paystack…');
+      window.location.href = result.authorizationUrl;
+    } catch (err) {
+      setStatus(err.message || 'Something went wrong. Please try again.');
+      button.disabled = false;
+      button.textContent = originalText;
+    }
+  }
+
+  /* ---------- Verify after returning from Paystack ---------- */
+
+  async function verifyReturnedPayment() {
+    var params = new URLSearchParams(window.location.search);
+    if (params.get('payment') !== 'verify') return;
+
+    var reference = params.get('reference') || params.get('trxref');
+    window.history.replaceState({}, document.title, window.location.pathname);
+
+    if (!reference) {
+      setStatus('No payment reference was returned by Paystack.');
+      return;
+    }
+
+    setStatus('Verifying your payment with Paystack…');
+    var statusEl = $('paymentStatus');
+    if (statusEl && statusEl.scrollIntoView) {
+      statusEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    try {
+      var response = await fetch('/api/payments/verify/' + encodeURIComponent(reference));
+      var result = await response.json();
+      if (!response.ok) throw new Error(result.error || 'Verification failed.');
+
+      upsertTransaction({
+        id: result.reference,
+        service: result.service,
+        amount: result.amount / 100,
+        createdAt: new Date().toISOString(),
+        status: result.verified ? 'verified' : 'failed'
+      });
+
+      setStatus(
+        (result.verified ? '✅ ' : '⚠️ ') + result.message +
+        ' Reference: ' + result.reference
+      );
+    } catch (err) {
+      setStatus('Could not verify the payment: ' + (err.message || 'unknown error'));
+    }
+
+    renderHistory();
+  }
+
+  /* ---------- Wire everything up ---------- */
+
+  var form = $('orderForm');
+  if (form) form.addEventListener('submit', handleSubmit);
+
+  window.addEventListener('maknazul:refresh-history', renderHistory);
+
+  renderHistory();
+  verifyReturnedPayment();
+})();

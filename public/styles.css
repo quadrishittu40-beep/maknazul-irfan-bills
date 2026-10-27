@@ -1,137 +1,32 @@
-/* MAKNAZUL IRFAN — UPDATED COLOUR THEME */
+/* MAKNAZUL 'IRFAN - theme layer
+   Loaded before the inline <style> in index.html, so the colours of the top bar,
+   hero, buttons and sidebar come from index.html (teal -> blue, matching the
+   theme-color meta tag). This file only sets the page background and the
+   colour tags for service icons. */
 
-:root {
-  --primary: #1238c7;
-  --secondary: #087f78;
-  --accent: #ffc928;
-  --text: #172554;
-  --background: #eaf3ff;
+html {
+  background: #eef6f8;
 }
 
 body {
-  background: linear-gradient(
-    135deg,
-    #eaf3ff 0%,
-    #f5f2ff 48%,
-    #dffbf0 100%
-  ) !important;
-  color: var(--text);
+  background: linear-gradient(160deg, #e8f5f7 0%, #f1f5ff 55%, #eaf7f1 100%) !important;
   min-height: 100vh;
-  font-family: Arial, sans-serif;
 }
 
-.topbar {
-  background: linear-gradient(
-    120deg,
-    #172ac4,
-    #087f78
-  ) !important;
-  color: white;
-}
+.service-icon.purple { background: #eee5ff; color: #6938c7; }
+.service-icon.blue   { background: #e1edff; color: #175bd3; }
+.service-icon.orange { background: #fff0d9; color: #d97706; }
+.service-icon.green  { background: #dcfce7; color: #15803d; }
+.service-icon.teal   { background: #dcf3f3; color: #087f8c; }
+.service-icon.cyan   { background: #cffafe; color: #0e7490; }
+.service-icon.pink   { background: #ffe4ec; color: #db2777; }
 
-.hero {
-  background: linear-gradient(
-    120deg,
-    #1029a9,
-    #087f78,
-    #08a88b
-  ) !important;
-  color: white;
-  border-radius: 24px;
-}
-
-.service-card {
-  background: #ffffff;
-  border: 1px solid #dce8f5;
-  border-radius: 18px;
-  box-shadow: 0 6px 18px rgba(20, 55, 120, 0.10);
-  transition: 0.2s ease;
-}
-
-.service-card:hover,
 .service-card.selected {
-  border-color: #087f78;
-  box-shadow: 0 8px 24px rgba(8, 127, 120, 0.18);
-  transform: translateY(-2px);
-}
-
-.service-icon {
-  width: 46px;
-  height: 46px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 14px;
-  font-size: 25px;
-  margin-bottom: 14px;
-}
-
-.purple {
-  background: #eee5ff;
-  color: #6938c7;
-}
-
-.blue {
-  background: #e1edff;
-  color: #175bd3;
-}
-
-.orange {
-  background: #fff0d9;
-  color: #d97706;
-}
-
-.green {
-  background: #dcfce7;
-  color: #15803d;
-}
-
-.cyan {
-  background: #cffafe;
-  color: #0e7490;
-}
-
-.pink {
-  background: #ffe4ec;
-  color: #db2777;
-}
-
-.primary-button {
-  background: linear-gradient(
-    90deg,
-    #1238c7,
-    #087f78
-  ) !important;
-  color: white !important;
-  border: none;
-  border-radius: 12px;
-  padding: 15px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.primary-button:hover {
-  filter: brightness(1.08);
-}
-
-.checkout-card {
-  background: #ffffff;
-  border: 1px solid #dce8f5;
-  border-radius: 19px;
-}
-
-.notice {
-  background: #fffaf0;
-  border-color: #f1dfb3;
+  border-color: #087f8c;
+  box-shadow: 0 8px 24px rgba(8, 127, 140, 0.18);
 }
 
 footer {
   background: #ffffff;
-  border-top: 1px solid #dce8f5;
-}
-
-@media (max-width: 760px) {
-  .service-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+  border-top: 1px solid #e2eaf2;
 }
