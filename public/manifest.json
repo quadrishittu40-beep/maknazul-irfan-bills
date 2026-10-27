@@ -1,0 +1,16 @@
+{
+  "name": "Maknazul Irfan Bills & Services",
+  "short_name": "MI Bills",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f0f6ff",
+  "theme_color": "#1238c7",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
