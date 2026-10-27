@@ -1,47 +1,61 @@
-/* Maknazul 'Irfan Bills & Services — colour and icon styles */
+
+/* MAKNAZUL IRFAN — UPDATED COLOUR THEME */
+
 :root {
   --primary: #1238c7;
   --secondary: #087f78;
   --accent: #ffc928;
-  --background: #f0f6ff;
   --text: #172554;
-  --white: #ffffff;
+  --background: #eaf3ff;
 }
+
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
+  background: linear-gradient(
+    135deg,
+    #eaf3ff 0%,
+    #f5f2ff 48%,
+    #dffbf0 100%
+  ) !important;
   color: var(--text);
-  background: linear-gradient(135deg, #eaf3ff 0%, #f5f2ff 50%, #e1fff5 100%);
   min-height: 100vh;
+  font-family: Arial, sans-serif;
 }
-.topbar { background: linear-gradient(120deg, #172ac4, #087f78); color: white; }
+
+.topbar {
+  background: linear-gradient(
+    120deg,
+    #172ac4,
+    #087f78
+  ) !important;
+  color: white;
+}
+
 .hero {
-  background: linear-gradient(120deg, #1029a9, #087f78, #08a88b);
+  background: linear-gradient(
+    120deg,
+    #1029a9,
+    #087f78,
+    #08a88b
+  ) !important;
   color: white;
   border-radius: 24px;
 }
+
 .service-card {
-  background: #fff;
+  background: #ffffff;
   border: 1px solid #dce8f5;
   border-radius: 18px;
-  box-shadow: 0 6px 18px rgba(20, 55, 120, 0.08);
-  transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+  box-shadow: 0 6px 18px rgba(20, 55, 120, 0.10);
+  transition: 0.2s ease;
 }
-.service-card:hover, .service-card.selected {
+
+.service-card:hover,
+.service-card.selected {
   border-color: #087f78;
-  box-shadow: 0 8px 24px rgba(8, 127, 120, .18);
+  box-shadow: 0 8px 24px rgba(8, 127, 120, 0.18);
   transform: translateY(-2px);
 }
-.primary-button {
-  background: linear-gradient(90deg, #1238c7, #087f78);
-  color: #fff;
-  border: none;
-  border-radius: 12px;
-  padding: 15px;
-  font-weight: bold;
-  cursor: pointer;
-}
-.primary-button:hover { filter: brightness(1.08); }
+
 .service-icon {
   width: 46px;
   height: 46px;
@@ -52,19 +66,73 @@ body {
   font-size: 25px;
   margin-bottom: 14px;
 }
-.service-icon svg {
-  width: 28px;
-  height: 28px;
-  fill: currentColor;
-  stroke: currentColor;
-  stroke-width: 1.4;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+
+.purple {
+  background: #eee5ff;
+  color: #6938c7;
 }
-.purple { background: #eee5ff; color: #6938c7; }
-.blue   { background: #e1edff; color: #175bd3; }
-.orange { background: #fff0d9; color: #d97706; }
-.green  { background: #dcfce7; color: #15803d; }
-.cyan   { background: #cffafe; color: #0e7490; }
-.pink   { background: #ffe4ec; color: #db2777; }
-.notice { border-color: #f1dfb3; background: #fffaf0; }
+
+.blue {
+  background: #e1edff;
+  color: #175bd3;
+}
+
+.orange {
+  background: #fff0d9;
+  color: #d97706;
+}
+
+.green {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.cyan {
+  background: #cffafe;
+  color: #0e7490;
+}
+
+.pink {
+  background: #ffe4ec;
+  color: #db2777;
+}
+
+.primary-button {
+  background: linear-gradient(
+    90deg,
+    #1238c7,
+    #087f78
+  ) !important;
+  color: white !important;
+  border: none;
+  border-radius: 12px;
+  padding: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.primary-button:hover {
+  filter: brightness(1.08);
+}
+
+.checkout-card {
+  background: #ffffff;
+  border: 1px solid #dce8f5;
+  border-radius: 19px;
+}
+
+.notice {
+  background: #fffaf0;
+  border-color: #f1dfb3;
+}
+
+footer {
+  background: #ffffff;
+  border-top: 1px solid #dce8f5;
+}
+
+@media (max-width: 760px) {
+  .service-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
