@@ -24,9 +24,23 @@
     });
   }
 
+  // Shows the message in the status box AND right under the pay button
   function setStatus(message) {
     var el = $('paymentStatus');
     if (el) el.textContent = message;
+
+    var button = $('payButton');
+    if (button) {
+      var note = $('payMessage');
+      if (!note) {
+        note = document.createElement('p');
+        note.id = 'payMessage';
+        note.setAttribute('role', 'alert');
+        note.style.cssText = 'margin:12px 0 0;padding:10px 12px;border-radius:10px;background:#edf8f8;font-size:13px;font-weight:700;color:#075b68';
+        button.insertAdjacentElement('afterend', note);
+      }
+      note.textContent = message;
+    }
   }
 
   /* ---------- Local transaction history ---------- */
@@ -137,7 +151,10 @@
       try { result = await response.json(); } catch (e) { /* non-JSON reply */ }
 
       if (!response.ok || !result.authorizationUrl) {
-        throw new Error(result.error || 'Could not start payment. Please try again.');
+        throw new Error(
+          result.error ||
+          ('Server replied with status ' + response.status + '. The payment server may not be running or configured.')
+        );
       }
 
       upsertTransaction({
@@ -172,7 +189,7 @@
     }
 
     setStatus('Verifying your payment with Paystack…');
-    var statusEl = $('paymentStatus');
+    var statusEl = $('payMessage') || $('paymentStatus');
     if (statusEl && statusEl.scrollIntoView) {
       statusEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
