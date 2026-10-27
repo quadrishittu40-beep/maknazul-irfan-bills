@@ -1,10 +1,20 @@
+
 {
-  "name": "Maknazul Irfan Bills & Services",
-  "short_name": "MI Bills",
+  "id": "/",
+  "name": "MAKNAZUL ‘IRFAN Bills & Services",
+  "short_name": "Maknazul Bills",
+  "description": "A responsive portal for examination pins, school fees, mobile data, electricity, and other bill payments.",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
-  "background_color": "#f0f6ff",
-  "theme_color": "#1238c7",
+  "orientation": "portrait",
+  "background_color": "#f0f5ff",
+  "theme_color": "#087f8c",
+  "categories": [
+    "education",
+    "finance",
+    "utilities"
+  ],
   "icons": [
     {
       "src": "/icon.svg",
