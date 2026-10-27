@@ -3,216 +3,852 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#1238c7">
-  <meta name="description" content="Maknazul Irfan Bills and Services — educational pins and everyday bill payments.">
-  <title>Maknazul 'Irfan | Bills & Services</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link rel="stylesheet" href="/styles.css?v=3">
+  <title>MAKNAZUL 'IRFAN Bills & Services</title>
+  <meta
+    name="description"
+    content="Pay for examination pins, school fees, mobile data, electricity and other services through MAKNAZUL 'IRFAN Bills & Services."
+  >
+  <meta name="theme-color" content="#087f8c">
+
   <link rel="icon" type="image/svg+xml" href="/icon.svg">
   <link rel="manifest" href="/manifest.json">
+  <link rel="stylesheet" href="/styles.css">
+
+  <style>
+    :root {
+      --primary: #087f8c;
+      --primary-dark: #075b68;
+      --secondary: #1238c7;
+      --accent: #ffb703;
+      --page: #f2f7fb;
+      --text: #172b4d;
+      --muted: #65758b;
+      --white: #ffffff;
+      --border: #e2eaf2;
+      --radius: 18px;
+      --shadow: 0 10px 30px rgba(21, 50, 80, .08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--page);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.6;
+    }
+
+    button, input, select, textarea {
+      font: inherit;
+    }
+
+    button, a {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .topbar {
+      background: linear-gradient(120deg, #075b68, #087f8c 55%, #1238c7);
+      color: white;
+      padding: 15px 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      box-shadow: 0 4px 20px #102f4930;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      font-weight: 800;
+      min-width: 0;
+    }
+
+    .brand img {
+      width: 43px;
+      height: 43px;
+      object-fit: contain;
+      border-radius: 12px;
+      background: white;
+      padding: 4px;
+    }
+
+    .brand small {
+      display: block;
+      font-size: 11px;
+      font-weight: 500;
+      opacity: .85;
+    }
+
+    .menu-button {
+      background: #ffffff20;
+      color: white;
+      border: 1px solid #ffffff50;
+      border-radius: 10px;
+      padding: 9px 12px;
+      font-size: 20px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 240px minmax(0, 1fr);
+      min-height: calc(100vh - 73px);
+    }
+
+    .sidebar {
+      background: white;
+      border-right: 1px solid var(--border);
+      padding: 22px 15px;
+    }
+
+    .sidebar h3 {
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: 1.4px;
+      padding-left: 12px;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      margin: 5px 0;
+      border-radius: 12px;
+      color: #40536b;
+      font-weight: 600;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      background: #e4f7f7;
+      color: var(--primary-dark);
+    }
+
+    .nav-icon {
+      width: 27px;
+      text-align: center;
+      font-size: 19px;
+    }
+
+    main {
+      padding: 28px;
+      max-width: 1400px;
+      width: 100%;
+      margin: 0 auto;
+      min-width: 0;
+    }
+
+    .welcome {
+      color: var(--muted);
+      margin: 0 0 5px;
+    }
+
+    h1, h2, h3, p {
+      overflow-wrap: anywhere;
+    }
+
+    h1 {
+      font-size: clamp(25px, 4vw, 36px);
+      line-height: 1.2;
+      margin: 0 0 10px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(180px, .7fr);
+      gap: 20px;
+      padding: 30px;
+      border-radius: 25px;
+      background: linear-gradient(125deg, #075b68, #087f8c 60%, #3865e8);
+      color: white;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      margin: 20px 0 28px;
+    }
+
+    .hero p {
+      color: #e4ffff;
+      max-width: 540px;
+    }
+
+    .hero-art {
+      display: grid;
+      place-items: center;
+      font-size: clamp(70px, 10vw, 120px);
+      background: #ffffff17;
+      border: 1px solid #ffffff35;
+      border-radius: 22px;
+      min-height: 150px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: 0;
+      border-radius: 11px;
+      padding: 12px 18px;
+      font-weight: 700;
+      background: var(--primary);
+      color: white;
+    }
+
+    .button:hover {
+      filter: brightness(.94);
+    }
+
+    .button-light {
+      background: white;
+      color: var(--primary-dark);
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 25px 0 15px;
+    }
+
+    .section-heading h2 {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .service-card {
+      background: white;
+      padding: 21px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: 0 5px 18px #203c5510;
+      transition: transform .18s, box-shadow .18s;
+    }
+
+    .service-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow);
+    }
+
+    .service-icon {
+      display: grid;
+      place-items: center;
+      width: 54px;
+      height: 54px;
+      border-radius: 16px;
+      font-size: 27px;
+      margin-bottom: 13px;
+      background: #e7f7f5;
+    }
+
+    .service-card:nth-child(3n + 2) .service-icon {
+      background: #fff2d8;
+    }
+
+    .service-card:nth-child(3n) .service-icon {
+      background: #eaeaff;
+    }
+
+    .service-card h3 {
+      margin: 0 0 5px;
+      font-size: 17px;
+    }
+
+    .service-card p {
+      font-size: 13px;
+      color: var(--muted);
+      min-height: 42px;
+      margin: 0 0 15px;
+    }
+
+    .service-card .button {
+      width: 100%;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr);
+      gap: 20px;
+      margin-top: 25px;
+      align-items: start;
+    }
+
+    .panel {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px;
+      box-shadow: 0 5px 18px #203c550a;
+      min-width: 0;
+    }
+
+    .panel h2 {
+      margin-top: 0;
+      font-size: 20px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 15px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    .field label {
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      min-width: 0;
+      border: 1px solid #ccd8e5;
+      border-radius: 10px;
+      padding: 12px;
+      background: #fff;
+      color: var(--text);
+      outline: none;
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px #087f8c20;
+    }
+
+    .notice {
+      padding: 12px 14px;
+      border-radius: 10px;
+      background: #fff5d9;
+      color: #704d00;
+      font-size: 12px;
+      margin: 12px 0;
+    }
+
+    .status-box {
+      padding: 12px;
+      background: #edf8f8;
+      border-radius: 10px;
+      font-size: 13px;
+      margin: 10px 0;
+    }
+
+    .history-list {
+      overflow-x: auto;
+    }
+
+    .history-list table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .history-list th,
+    .history-list td {
+      text-align: left;
+      padding: 10px 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .history-list th {
+      color: var(--muted);
+    }
+
+    .empty {
+      padding: 20px 0;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px 10px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .drawer-backdrop {
+      display: none;
+    }
+
+    @media (max-width: 1000px) {
+      .service-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .layout {
+        grid-template-columns: 200px minmax(0, 1fr);
+      }
+
+      main {
+        padding: 22px;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .layout {
+        display: block;
+      }
+
+      .sidebar {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: min(280px, 85vw);
+        z-index: 40;
+        transform: translateX(-105%);
+        transition: transform .2s ease;
+        overflow-y: auto;
+        box-shadow: var(--shadow);
+      }
+
+      body.drawer-open .sidebar {
+        transform: translateX(0);
+      }
+
+      .drawer-backdrop {
+        position: fixed;
+        inset: 0;
+        z-index: 30;
+        background: #061b2c80;
+      }
+
+      body.drawer-open .drawer-backdrop {
+        display: block;
+      }
+
+      main {
+        padding: 18px 14px;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+        padding: 23px;
+      }
+
+      .hero-art {
+        min-height: 100px;
+        font-size: 70px;
+      }
+
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .topbar {
+        padding: 12px 14px;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .service-grid,
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .service-card p {
+        min-height: 0;
+      }
+
+      .brand {
+        font-size: 13px;
+      }
+
+      .brand img {
+        width: 37px;
+        height: 37px;
+      }
+
+      .hero {
+        padding: 19px;
+      }
+
+      .panel {
+        padding: 16px;
+      }
+    }
+  </style>
 </head>
 
 <body>
   <header class="topbar">
-    <a class="brand" href="/" aria-label="Maknazul Irfan home">
-      <span class="brand-mark">MI</span>
-      <span>
-        <strong>MAKNAZUL ’IRFAN</strong>
-        <small>BILLS & SERVICES</small>
-      </span>
-    </a>
-    <span class="secure">🟢 Simple. Secure. Convenient.</span>
+    <div class="brand">
+      <img src="/icon.svg" alt="Maknazul Irfan logo">
+      <div>
+        MAKNAZUL 'IRFAN
+        <small>Bills &amp; Services</small>
+      </div>
+    </div>
+
+    <button
+      class="menu-button"
+      id="menuButton"
+      type="button"
+      aria-label="Open navigation menu"
+      aria-expanded="false"
+    >☰</button>
   </header>
 
-  <main class="page">
-    <section class="hero">
-      <div>
-        <p class="eyebrow">YOUR EVERYDAY SERVICE HUB</p>
-        <h1>Pay bills.<br><span>Move forward.</span></h1>
-        <p class="hero-copy">
-          Education pins and essential services, brought together
-          in one simple place.
-        </p>
-        <a class="hero-link" href="#services">Explore services ↓</a>
-      </div>
+  <div class="drawer-backdrop" id="drawerBackdrop"></div>
 
-      <div class="hero-art" aria-hidden="true">
-        <div class="art-circle circle-one"></div>
-        <div class="art-circle circle-two"></div>
-        <div class="receipt">
-          <span class="receipt-icon">✓</span>
-          <b>Payment made simple</b>
-          <small>Convenience at your fingertips</small>
-          <div class="receipt-line"></div>
-          <div class="receipt-line short"></div>
-        </div>
-        <div class="floating-chip">₦ <span>NGN</span></div>
-      </div>
-    </section>
+  <div class="layout">
+    <aside class="sidebar" id="sidebar">
+      <h3>MAIN MENU</h3>
 
-    <section class="section-heading" id="services">
-      <div>
-        <p class="eyebrow">WHAT DO YOU NEED TODAY?</p>
-        <h2>Choose a service</h2>
-      </div>
-      <span class="service-count">6 service categories</span>
-    </section>
+      <a class="nav-link active" href="#home">
+        <span class="nav-icon">🏠</span> Dashboard
+      </a>
+      <a class="nav-link" href="#services">
+        <span class="nav-icon">🛍️</span> All Services
+      </a>
+      <a class="nav-link" href="#order">
+        <span class="nav-icon">💳</span> Make Payment
+      </a>
+      <a class="nav-link" href="#history">
+        <span class="nav-icon">🧾</span> Transaction History
+      </a>
 
-    <section class="service-grid">
-      <button class="service-card selected" data-service="WAEC Scratch Card" type="button">
-        <span class="service-icon purple">🎓</span>
-        <strong>WAEC Scratch Card</strong>
-        <small>Exam result access</small>
-        <span class="card-arrow">↗</span>
-      </button>
+      <h3>EDUCATION</h3>
+      <a class="nav-link" href="#services">
+        <span class="nav-icon">🎓</span> Exam Pins
+      </a>
+      <a class="nav-link" href="#order">
+        <span class="nav-icon">🏫</span> School Fees
+      </a>
 
-      <button class="service-card" data-service="JAMB PIN" type="button">
-        <span class="service-icon blue">📚</span>
-        <strong>JAMB PIN</strong>
-        <small>Registration support</small>
-        <span class="card-arrow">↗</span>
-      </button>
+      <h3>UTILITIES</h3>
+      <a class="nav-link" href="#services">
+        <span class="nav-icon">📱</span> Data &amp; Airtime
+      </a>
+      <a class="nav-link" href="#services">
+        <span class="nav-icon">💡</span> Electricity
+      </a>
+    </aside>
 
-      <button class="service-card" data-service="NECO / NABTEB" type="button">
-        <span class="service-icon orange">📖</span>
-        <strong>NECO / NABTEB</strong>
-        <small>Examination services</small>
-        <span class="card-arrow">↗</span>
-      </button>
-
-      <button class="service-card" data-service="School / Acceptance Fees" type="button">
-        <span class="service-icon green">🏫</span>
-        <strong>School / Acceptance Fees</strong>
-        <small>Education payments</small>
-        <span class="card-arrow">↗</span>
-      </button>
-
-      <button class="service-card" data-service="Mobile Data" type="button">
-        <span class="service-icon cyan">📱</span>
-        <strong>Mobile Data</strong>
-        <small>Stay connected</small>
-        <span class="card-arrow">↗</span>
-      </button>
-
-      <button class="service-card" data-service="Electricity / TV / Other Bills" type="button">
-        <span class="service-icon pink">⚡</span>
-        <strong>Electricity / TV / Other Bills</strong>
-        <small>Everyday utilities</small>
-        <span class="card-arrow">↗</span>
-      </button>
-    </section>
-
-    <section class="checkout-layout" id="order">
-      <div class="checkout-intro">
-        <p class="eyebrow">QUICK CHECKOUT</p>
-        <h2>Let’s get it done.</h2>
-        <p>
-          Select a service, enter your details and continue to secure checkout.
-        </p>
-
-        <div class="trust-note">
-          <span>✓</span>
-          <div>
-            <b>Secure payment processing</b>
-            <small>Payments are handled by Paystack.</small>
-          </div>
-        </div>
-
-        <div class="trust-note">
-          <span>◎</span>
-          <div>
-            <b>Keep your payment reference</b>
-            <small>Save your receipt for future support.</small>
-          </div>
-        </div>
-      </div>
-
-      <form class="checkout-card" id="checkout-form">
-        <div class="form-top">
-          <div>
-            <span class="form-kicker">SERVICE ORDER</span>
-            <h3>Order details</h3>
-          </div>
-          <span class="step-pill">STEP 1 OF 2</span>
-        </div>
-
-        <label for="service">Selected service</label>
-        <select id="service" name="service" required>
-          <option>WAEC Scratch Card</option>
-          <option>JAMB PIN</option>
-          <option>NECO / NABTEB</option>
-          <option>School / Acceptance Fees</option>
-          <option>Mobile Data</option>
-          <option>Electricity / TV / Other Bills</option>
-        </select>
-
-        <div class="form-row">
-          <div>
-            <label for="name">Full name</label>
-            <input id="name" name="name" autocomplete="name"
-              placeholder="Your full name" maxlength="100" required>
-          </div>
-          <div>
-            <label for="phone">Phone number</label>
-            <input id="phone" name="phone" autocomplete="tel"
-              placeholder="080..." maxlength="30" required>
-          </div>
-        </div>
-
-        <label for="email">Email address</label>
-        <input id="email" name="email" type="email" autocomplete="email"
-          placeholder="you@example.com" maxlength="254" required>
-
-        <label for="amount">Amount (₦)</label>
-        <div class="amount-wrap">
-          <span>₦</span>
-          <input id="amount" name="amount" type="number"
-            min="50" max="1000000" step="1"
-            placeholder="Enter amount" required>
-        </div>
-
-        <p class="hint">
-          Enter the amount for your order. Confirm the correct service price
-          before making payment.
-        </p>
-
-        <button class="primary-button" id="pay-button" type="submit">
-          Continue to payment <span>→</span>
-        </button>
-
-        <p class="form-message" id="form-message"
-          role="status" aria-live="polite"></p>
-
-        <p class="legal">
-          Verify your order details before payment.
-        </p>
-      </form>
-    </section>
-
-    <section class="notice">
-      <span>i</span>
-      <p>
-        <b>Service availability:</b> Payment processing does not automatically
-        deliver examination PINs, mobile data, electricity tokens, TV
-        subscriptions or school payments. Approved supplier integrations
-        must be connected before automatic fulfilment is available.
+    <main id="home">
+      <p class="welcome">Welcome to your payment dashboard</p>
+      <h1>Simple, Convenient Payments</h1>
+      <p class="muted">
+        Choose a service, enter your details and proceed to secure test checkout.
       </p>
-    </section>
-  </main>
 
-  <footer>
-    <a class="brand footer-brand" href="/">
-      <span class="brand-mark">MI</span>
-      <span>
-        <strong>MAKNAZUL ’IRFAN</strong>
-        <small>BILLS & SERVICES</small>
-      </span>
-    </a>
-    <span>© <span id="year"></span> Maknazul ’Irfan Academy</span>
-    <span>Convenient service access.</span>
-  </footer>
+      <section class="hero">
+        <div>
+          <p class="welcome">MAKNAZUL 'IRFAN BILLS &amp; SERVICES</p>
+          <h2>Education and utility payments made easier.</h2>
+          <p>
+            Access examination services, school payment options and everyday
+            utility services from one convenient portal.
+          </p>
+          <a href="#services" class="button button-light">Explore Services →</a>
+        </div>
+        <div class="hero-art" aria-hidden="true">🎓💳</div>
+      </section>
 
-  <script src="/app.js?v=3" defer></script>
+      <section id="services">
+        <div class="section-heading">
+          <h2>Our Services</h2>
+          <span class="muted">Choose a category</span>
+        </div>
+
+        <div class="service-grid">
+          <article class="service-card">
+            <div class="service-icon" aria-hidden="true">📘</div>
+            <h3>WAEC</h3>
+            <p>Examination PIN and related WAEC services.</p>
+            <button class="button service-select" type="button" data-service="waec">
+              Select WAEC
+            </button>
+          </article>
+
+          <article class="service-card">
+            <div class="service-icon" aria-hidden="true">🎓</div>
+            <h3>JAMB</h3>
+            <p>JAMB-related examination and registration services.</p>
+            <button class="button service-select" type="button" data-service="jamb">
+              Select JAMB
+            </button>
+          </article>
+
+          <article class="service-card">
+            <div class="service-icon" aria-hidden="true">📝</div>
+            <h3>NECO / NABTEB</h3>
+            <p>Choose a NECO or NABTEB examination service.</p>
+            <button class="button service-select" type="button" data-service="neco">
+              Select Service
+            </button>
+          </article>
+
+          <article class="service-card">
+            <div class="service-icon" aria-hidden="true">🏫</div>
+            <h3>School Fees</h3>
+            <p>School fees, acceptance fees and other education payments.</p>
+            <button class="button service-select" type="button" data-service="school-fees">
+              Select School Fees
+            </button>
+          </article>
+
+          <article class="service-card">
+            <div class="service-icon" aria-hidden="true">📱</div>
+            <h3>Mobile Data &amp; Airtime</h3>
+            <p>Mobile top-ups and data bundle payment options.</p>
+            <button class="button service-select" type="button" data-service="data">
+              Select Data
+            </button>
+          </article>
+
+          <article class="service-card">
+            <div class="service-icon" aria-hidden="true">💡</div>
+            <h3>Electricity &amp; TV</h3>
+            <p>Electricity tokens, television subscriptions and other bills.</p>
+            <button class="button service-select" type="button" data-service="utilities">
+              Select Utility
+            </button>
+          </article>
+        </div>
+      </section>
+
+      <div class="content-grid">
+        <section class="panel" id="order">
+          <h2>🛒 Place an Order</h2>
+          <p class="muted">
+            Enter the requested details before proceeding to payment.
+          </p>
+
+          <form id="orderForm">
+            <div class="form-grid">
+              <div class="field full">
+                <label for="service">Service category</label>
+                <select id="service" name="service" required>
+                  <option value="">Select a service</option>
+                  <option value="waec">WAEC</option>
+                  <option value="jamb">JAMB</option>
+                  <option value="neco">NECO</option>
+                  <option value="nabteb">NABTEB</option>
+                  <option value="school-fees">School Fees</option>
+                  <option value="acceptance-fees">Acceptance Fees</option>
+                  <option value="data">Mobile Data</option>
+                  <option value="airtime">Airtime</option>
+                  <option value="electricity">Electricity</option>
+                  <option value="tv">TV Subscription</option>
+                  <option value="other">Other Bills</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="customerName">Full name</label>
+                <input
+                  id="customerName"
+                  name="customerName"
+                  type="text"
+                  autocomplete="name"
+                  placeholder="Enter your full name"
+                  required
+                >
+              </div>
+
+              <div class="field">
+                <label for="email">Email address</label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  autocomplete="email"
+                  placeholder="you@example.com"
+                  required
+                >
+              </div>
+
+              <div class="field full">
+                <label for="customerReference">Phone number or service reference</label>
+                <input
+                  id="customerReference"
+                  name="customerReference"
+                  type="text"
+                  placeholder="Enter the required phone number or reference"
+                >
+              </div>
+
+              <div class="field full">
+                <label for="details">Additional details (optional)</label>
+                <textarea
+                  id="details"
+                  name="details"
+                  rows="3"
+                  placeholder="Institution, network, meter type or other relevant details"
+                ></textarea>
+              </div>
+            </div>
+
+            <div class="notice">
+              <strong>Test mode:</strong> The current sample price may be ₦1,000
+              for every service. It is not an official service price. No real
+              examination PIN, utility token or subscription is delivered by this
+              prototype.
+            </div>
+
+            <button class="button" type="submit" id="payButton">
+              🔒 Continue to Secure Test Payment
+            </button>
+            <p class="muted">
+              Payment processing depends on the server-side Paystack integration.
+            </p>
+          </form>
+        </section>
+
+        <section class="panel">
+          <h2>💳 Payment Information</h2>
+          <p class="muted">
+            Payments are intended to use Paystack-hosted checkout. The server
+            must verify transactions before treating them as successful.
+          </p>
+
+          <div class="status-box">
+            <strong>🔐 Checkout security</strong><br>
+            Never enter your card PIN or banking password into this website.
+            Complete payment only on the trusted Paystack checkout page.
+          </div>
+
+          <div class="status-box">
+            <strong>🧪 Current environment</strong><br>
+            Test payments only. A successful test payment does not deliver a
+            real service.
+          </div>
+
+          <div class="status-box">
+            <strong>📌 Transaction status</strong><br>
+            <span id="paymentStatus" role="status" aria-live="polite">
+              No new payment status to display.
+            </span>
+          </div>
+        </section>
+      </div>
+
+      <section class="panel" id="history" style="margin-top: 22px;">
+        <div class="section-heading">
+          <h2>🧾 Recent Transactions</h2>
+          <button class="button" id="refreshHistory" type="button">
+            Refresh
+          </button>
+        </div>
+
+        <p class="muted">
+          This section can display local browser history when supported by
+          your existing app.js. Local history is not an official server ledger.
+        </p>
+
+        <div id="transactionHistory" class="history-list">
+          <div class="empty">Loading transaction history…</div>
+        </div>
+      </section>
+
+      <footer>
+        <strong>MAKNAZUL 'IRFAN Bills &amp; Services</strong><br>
+        Education, payments and everyday services.<br>
+        © <span id="currentYear"></span> MAKNAZUL 'IRFAN. All rights reserved.
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    document.getElementById("currentYear").textContent =
+      new Date().getFullYear();
+
+    const menuButton = document.getElementById("menuButton");
+    const backdrop = document.getElementById("drawerBackdrop");
+
+    function closeDrawer() {
+      document.body.classList.remove("drawer-open");
+      menuButton.setAttribute("aria-expanded", "false");
+    }
+
+    menuButton.addEventListener("click", function () {
+      const open = document.body.classList.toggle("drawer-open");
+      menuButton.setAttribute("aria-expanded", String(open));
+    });
+
+    backdrop.addEventListener("click", closeDrawer);
+
+    document.querySelectorAll(".sidebar a").forEach(function (link) {
+      link.addEventListener("click", closeDrawer);
+    });
+
+    document.querySelectorAll(".service-select").forEach(function (button) {
+      button.addEventListener("click", function () {
+        const service = document.getElementById("service");
+        const requested = button.dataset.service;
+
+        const matchingOption = Array.from(service.options).find(function (option) {
+          return option.value === requested;
+        });
+
+        if (matchingOption) {
+          service.value = requested;
+        } else if (requested === "neco") {
+          service.value = "neco";
+        }
+
+        document.getElementById("order").scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      });
+    });
+
+    document.getElementById("refreshHistory").addEventListener("click", function () {
+      window.dispatchEvent(new CustomEvent("maknazul:refresh-history"));
+    });
+  </script>
+
+  <script src="/app.js" defer></script>
 </body>
 </html>
