@@ -1,51 +1,218 @@
-<!doctype html>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#007f80"><title>MAKNAZUL 'IRFAN | Bills & Services</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#1238c7">
+  <meta name="description" content="Maknazul Irfan Bills and Services — educational pins and everyday bill payments.">
+  <title>Maknazul 'Irfan | Bills & Services</title>
+
+  <link rel="stylesheet" href="/styles.css?v=3">
+  <link rel="icon" type="image/svg+xml" href="/icon.svg">
+  <link rel="manifest" href="/manifest.json">
 </head>
+
 <body>
   <header class="topbar">
-    <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
-    <div class="brand"><div class="brand-mark">MI</div><div><strong>MAKNAZUL 'IRFAN</strong><small>BILLS & SERVICES</small></div></div>
-    <button class="wallet" id="walletBtn" aria-label="Wallet"><span>▣</span><b>Wallet</b></button>
-    <button class="icon-btn profile-btn" id="profileBtn" aria-label="Profile">♙</button>
+    <a class="brand" href="/" aria-label="Maknazul Irfan home">
+      <span class="brand-mark">MI</span>
+      <span>
+        <strong>MAKNAZUL ’IRFAN</strong>
+        <small>BILLS & SERVICES</small>
+      </span>
+    </a>
+    <span class="secure">🟢 Simple. Secure. Convenient.</span>
   </header>
-  <div class="scrim" id="scrim"></div>
-  <aside class="sidebar" id="sidebar">
-    <div class="side-brand"><div class="brand-mark">MI</div><div><strong>MAKNAZUL 'IRFAN</strong><small>Academy Service Portal</small></div></div>
-    <button class="nav-item active" data-page="home">⌂ <span>Dashboard</span></button>
-    <div class="nav-heading">EDUCATIONAL SERVICES</div>
-    <button class="nav-item" data-category="education">▤ <span>All Educational Bills</span></button>
-    <button class="nav-item" data-service="waec">▣ <span>WAEC Scratch Card</span></button>
-    <button class="nav-item" data-service="jamb">▱ <span>JAMB PIN Vending</span></button>
-    <button class="nav-item" data-service="neco">▣ <span>NECO Services</span></button>
-    <button class="nav-item" data-service="nabteb">▣ <span>NABTEB Services</span></button>
-    <button class="nav-item" data-service="schoolfees">▤ <span>School Fees</span></button>
-    <button class="nav-item" data-service="admission">✓ <span>Acceptance Fees</span></button>
-    <div class="nav-heading">OTHER SERVICES</div>
-    <button class="nav-item" data-category="utilities">ϟ <span>Utilities & Bills</span></button>
-    <button class="nav-item" data-service="data">⌁ <span>Data Subscription</span></button>
-    <button class="nav-item" data-service="electricity">ϟ <span>Electricity Bills</span></button>
-    <button class="nav-item" data-service="tv">▣ <span>TV Subscriptions</span></button>
-    <button class="nav-item" data-page="transactions">☷ <span>Transaction History</span></button>
-    <button class="nav-item" data-page="support">ⓘ <span>Support</span></button>
-    <div class="side-footer">Secure service portal<br><small>Payments require an approved provider.</small></div>
-  </aside>
-  <main class="main" id="main">
-    <section class="welcome-row"><div><p class="eyebrow">WELCOME TO YOUR SERVICE HUB</p><h1 id="pageTitle">Bills and Services</h1><p class="muted" id="pageSubtitle">Access educational pins, examination services and everyday bill payments in one place.</p></div><div class="date-pill">● Service portal</div></section>
-    <section class="notice"><div class="notice-icon">✓</div><div><strong>MAKNAZUL 'IRFAN Service Centre</strong><p>Convenient access to educational services and essential bill categories.</p></div></section>
-    <section class="stats-grid"><div class="stat-card"><span class="stat-icon teal">▤</span><div><small>EDUCATIONAL SERVICES</small><strong>06+</strong><p>Exam and school payments</p></div></div><div class="stat-card"><span class="stat-icon orange">ϟ</span><div><small>UTILITY SERVICES</small><strong>03+</strong><p>Everyday subscriptions</p></div></div><div class="stat-card"><span class="stat-icon purple">☷</span><div><small>YOUR ACTIVITY</small><strong id="activityCount">0</strong><p>Saved demo transactions</p></div></div></section>
-    <section class="section-head"><div><h2>Educational Services</h2><p>Choose a service to continue.</p></div><button class="text-btn" id="seeAllEducation">View all →</button></section>
-    <section class="services-grid" id="educationGrid"></section>
-    <section class="section-head"><div><h2>Utilities & Subscriptions</h2><p>More services for your everyday needs.</p></div><button class="text-btn" id="seeAllUtilities">View all →</button></section>
-    <section class="services-grid" id="utilityGrid"></section>
-    <section class="section-head"><div><h2>Quick access</h2><p>Manage your activity and get help.</p></div></section>
-    <section class="quick-grid"><button class="quick-card" data-page="transactions"><span>☷</span><div><strong>Transaction history</strong><small>Review saved demo activity</small></div><b>›</b></button><button class="quick-card" data-page="support"><span>ⓘ</span><div><strong>Support centre</strong><small>Questions about a service?</small></div><b>›</b></button></section>
-    <footer>© <span id="year"></span> MAKNAZUL 'IRFAN ACADEMY · Know Me before you worship Me<br><small>Prototype only. No real payment is collected or processed.</small></footer>
+
+  <main class="page">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">YOUR EVERYDAY SERVICE HUB</p>
+        <h1>Pay bills.<br><span>Move forward.</span></h1>
+        <p class="hero-copy">
+          Education pins and essential services, brought together
+          in one simple place.
+        </p>
+        <a class="hero-link" href="#services">Explore services ↓</a>
+      </div>
+
+      <div class="hero-art" aria-hidden="true">
+        <div class="art-circle circle-one"></div>
+        <div class="art-circle circle-two"></div>
+        <div class="receipt">
+          <span class="receipt-icon">✓</span>
+          <b>Payment made simple</b>
+          <small>Convenience at your fingertips</small>
+          <div class="receipt-line"></div>
+          <div class="receipt-line short"></div>
+        </div>
+        <div class="floating-chip">₦ <span>NGN</span></div>
+      </div>
+    </section>
+
+    <section class="section-heading" id="services">
+      <div>
+        <p class="eyebrow">WHAT DO YOU NEED TODAY?</p>
+        <h2>Choose a service</h2>
+      </div>
+      <span class="service-count">6 service categories</span>
+    </section>
+
+    <section class="service-grid">
+      <button class="service-card selected" data-service="WAEC Scratch Card" type="button">
+        <span class="service-icon purple">🎓</span>
+        <strong>WAEC Scratch Card</strong>
+        <small>Exam result access</small>
+        <span class="card-arrow">↗</span>
+      </button>
+
+      <button class="service-card" data-service="JAMB PIN" type="button">
+        <span class="service-icon blue">📚</span>
+        <strong>JAMB PIN</strong>
+        <small>Registration support</small>
+        <span class="card-arrow">↗</span>
+      </button>
+
+      <button class="service-card" data-service="NECO / NABTEB" type="button">
+        <span class="service-icon orange">📖</span>
+        <strong>NECO / NABTEB</strong>
+        <small>Examination services</small>
+        <span class="card-arrow">↗</span>
+      </button>
+
+      <button class="service-card" data-service="School / Acceptance Fees" type="button">
+        <span class="service-icon green">🏫</span>
+        <strong>School / Acceptance Fees</strong>
+        <small>Education payments</small>
+        <span class="card-arrow">↗</span>
+      </button>
+
+      <button class="service-card" data-service="Mobile Data" type="button">
+        <span class="service-icon cyan">📱</span>
+        <strong>Mobile Data</strong>
+        <small>Stay connected</small>
+        <span class="card-arrow">↗</span>
+      </button>
+
+      <button class="service-card" data-service="Electricity / TV / Other Bills" type="button">
+        <span class="service-icon pink">⚡</span>
+        <strong>Electricity / TV / Other Bills</strong>
+        <small>Everyday utilities</small>
+        <span class="card-arrow">↗</span>
+      </button>
+    </section>
+
+    <section class="checkout-layout" id="order">
+      <div class="checkout-intro">
+        <p class="eyebrow">QUICK CHECKOUT</p>
+        <h2>Let’s get it done.</h2>
+        <p>
+          Select a service, enter your details and continue to secure checkout.
+        </p>
+
+        <div class="trust-note">
+          <span>✓</span>
+          <div>
+            <b>Secure payment processing</b>
+            <small>Payments are handled by Paystack.</small>
+          </div>
+        </div>
+
+        <div class="trust-note">
+          <span>◎</span>
+          <div>
+            <b>Keep your payment reference</b>
+            <small>Save your receipt for future support.</small>
+          </div>
+        </div>
+      </div>
+
+      <form class="checkout-card" id="checkout-form">
+        <div class="form-top">
+          <div>
+            <span class="form-kicker">SERVICE ORDER</span>
+            <h3>Order details</h3>
+          </div>
+          <span class="step-pill">STEP 1 OF 2</span>
+        </div>
+
+        <label for="service">Selected service</label>
+        <select id="service" name="service" required>
+          <option>WAEC Scratch Card</option>
+          <option>JAMB PIN</option>
+          <option>NECO / NABTEB</option>
+          <option>School / Acceptance Fees</option>
+          <option>Mobile Data</option>
+          <option>Electricity / TV / Other Bills</option>
+        </select>
+
+        <div class="form-row">
+          <div>
+            <label for="name">Full name</label>
+            <input id="name" name="name" autocomplete="name"
+              placeholder="Your full name" maxlength="100" required>
+          </div>
+          <div>
+            <label for="phone">Phone number</label>
+            <input id="phone" name="phone" autocomplete="tel"
+              placeholder="080..." maxlength="30" required>
+          </div>
+        </div>
+
+        <label for="email">Email address</label>
+        <input id="email" name="email" type="email" autocomplete="email"
+          placeholder="you@example.com" maxlength="254" required>
+
+        <label for="amount">Amount (₦)</label>
+        <div class="amount-wrap">
+          <span>₦</span>
+          <input id="amount" name="amount" type="number"
+            min="50" max="1000000" step="1"
+            placeholder="Enter amount" required>
+        </div>
+
+        <p class="hint">
+          Enter the amount for your order. Confirm the correct service price
+          before making payment.
+        </p>
+
+        <button class="primary-button" id="pay-button" type="submit">
+          Continue to payment <span>→</span>
+        </button>
+
+        <p class="form-message" id="form-message"
+          role="status" aria-live="polite"></p>
+
+        <p class="legal">
+          Verify your order details before payment.
+        </p>
+      </form>
+    </section>
+
+    <section class="notice">
+      <span>i</span>
+      <p>
+        <b>Service availability:</b> Payment processing does not automatically
+        deliver examination PINs, mobile data, electricity tokens, TV
+        subscriptions or school payments. Approved supplier integrations
+        must be connected before automatic fulfilment is available.
+      </p>
+    </section>
   </main>
-  <div class="modal-backdrop" id="modalBackdrop"><section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><button class="close-btn" id="closeModal" aria-label="Close">×</button><div id="modalContent"></div></section></div>
-  <div class="toast" id="toast" role="status"></div>
-  <script src="app.js"></script>
-</body></html>
+
+  <footer>
+    <a class="brand footer-brand" href="/">
+      <span class="brand-mark">MI</span>
+      <span>
+        <strong>MAKNAZUL ’IRFAN</strong>
+        <small>BILLS & SERVICES</small>
+      </span>
+    </a>
+    <span>© <span id="year"></span> Maknazul ’Irfan Academy</span>
+    <span>Convenient service access.</span>
+  </footer>
+
+  <script src="/app.js?v=3" defer></script>
+</body>
+</html>
