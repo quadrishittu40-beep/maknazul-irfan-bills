@@ -1,8 +1,8 @@
 {
   "id": "/",
-  "name": "MAKNAZUL ‘IRFAN Bills & Services",
-  "short_name": "Maknazul Bills",
-  "description": "A responsive portal for examination pins, school fees, mobile data, electricity, and other bill payments.",
+  "name": "Maknazul ‘Irfan Academy – Bills & Services",
+  "short_name": "Irfan Bills",
+  "description": "Pay for education services, school payments, airtime, data, electricity, TV and other bills.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

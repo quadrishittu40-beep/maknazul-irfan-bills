@@ -1,0 +1,20 @@
+:root{--primary:#087f8c;--dark:#075b68;--text:#172b4d;--muted:#65758b;--border:#e2eaf2}
+*{box-sizing:border-box}
+body{margin:0;background:linear-gradient(160deg,#e8f5f7 0%,#f1f5ff 55%,#eaf7f1 100%);color:var(--text);font-family:Arial,Helvetica,sans-serif;line-height:1.7}
+.top{background:linear-gradient(120deg,#075b68,#087f8c 55%,#1238c7);color:#fff;padding:14px 5%;display:flex;align-items:center;gap:11px;font-weight:800}
+.top img{width:40px;height:40px;border-radius:11px;background:#fff;padding:4px}
+.top a{color:#fff;text-decoration:none}
+.top small{display:block;font-size:11px;font-weight:500;opacity:.85}
+main{max-width:760px;margin:22px auto;padding:0 14px}
+.card{background:#fff;border:1px solid var(--border);border-radius:18px;padding:22px;box-shadow:0 5px 18px #203c5510}
+h1{font-size:26px;line-height:1.25;margin:0 0 4px}
+h2{font-size:18px;margin:24px 0 6px;color:var(--dark)}
+p,li{overflow-wrap:anywhere;font-size:15px}
+.muted{color:var(--muted);font-size:13px}
+.note{background:#fff5d9;color:#704d00;border-radius:10px;padding:10px 12px;font-size:13px;margin:14px 0}
+.contact-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.btn{display:inline-block;background:var(--primary);color:#fff;text-decoration:none;font-weight:700;border-radius:11px;padding:12px 16px}
+.btn.light{background:#fff;color:var(--dark);border:1px solid #ccd8e5}
+a{color:var(--dark)}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:22px 10px}
+footer a{color:var(--muted)}
