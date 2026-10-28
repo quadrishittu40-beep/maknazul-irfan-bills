@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const crypto = require('crypto');
+const { createRemoteJWKSet, jwtVerify } = require('jose');
 try { require('dotenv').config(); } catch (_) {}
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -22,11 +23,52 @@ const SERVICES = {
   tv: { name: 'TV Subscriptions', amount: 100000 }
 };
 
+/* ---------- Sign-in (Firebase Authentication) ---------- */
+
+// Public web config for the browser. These are identifiers, not secrets.
+function firebaseConfig() {
+  const apiKey = process.env.FIREBASE_API_KEY;
+  const projectId = process.env.FIREBASE_PROJECT_ID;
+  if (!apiKey || !projectId) return null;
+  return {
+    apiKey,
+    authDomain: process.env.FIREBASE_AUTH_DOMAIN || `${projectId}.firebaseapp.com`,
+    projectId,
+    appId: process.env.FIREBASE_APP_ID || ''
+  };
+}
+
+const FIREBASE_JWKS = createRemoteJWKSet(
+  new URL('https://www.googleapis.com/service_accounts/v1/jwk/securetoken@system.gserviceaccount.com')
+);
+
+// Checks the Firebase ID token sent by the browser before any payment is started.
+async function requireUser(req, res, next) {
+  const projectId = process.env.FIREBASE_PROJECT_ID;
+  if (!projectId) return res.status(503).json({ error: 'Sign-in is not configured yet.' });
+  const header = req.get('authorization') || '';
+  const token = header.startsWith('Bearer ') ? header.slice(7) : '';
+  if (!token) return res.status(401).json({ error: 'Please sign in to continue.' });
+  try {
+    const { payload } = await jwtVerify(token, FIREBASE_JWKS, {
+      issuer: `https://securetoken.google.com/${projectId}`,
+      audience: projectId
+    });
+    if (!payload.sub) throw new Error('Token has no subject');
+    req.user = { uid: payload.sub, email: payload.email || '', phone: payload.phone_number || '' };
+    next();
+  } catch (err) {
+    console.error('Token verification failed:', err.message);
+    res.status(401).json({ error: 'Your session expired. Please sign in again.' });
+  }
+}
+
 app.get('/api/status', (_req, res) => res.json({
   app: "MAKNAZUL 'IRFAN Bills & Services",
   paymentProvider: 'Paystack',
   mode: 'test',
   configured: Boolean(process.env.PAYSTACK_SECRET_KEY && process.env.PAYSTACK_PUBLIC_KEY),
+  signInConfigured: Boolean(firebaseConfig()),
   livePaymentsEnabled: false,
   note: 'Test-only sample prices. No examination PINs or utility tokens are supplied by this app.'
 }));
@@ -34,10 +76,11 @@ app.get('/api/status', (_req, res) => res.json({
 app.get('/api/config', (_req, res) => res.json({
   paystackPublicKey: process.env.PAYSTACK_PUBLIC_KEY || '',
   currency: 'NGN',
-  mode: 'test'
+  mode: 'test',
+  firebase: firebaseConfig()
 }));
 
-app.post('/api/payments/initialize', async (req, res) => {
+app.post('/api/payments/initialize', requireUser, async (req, res) => {
   try {
     const { serviceId, email, details } = req.body || {};
     const service = SERVICES[serviceId];
@@ -59,7 +102,14 @@ app.post('/api/payments/initialize', async (req, res) => {
         currency: 'NGN',
         reference,
         callback_url: `${baseUrl}/?payment=verify`,
-        metadata: { service_id: serviceId, service_name: service.name, customer_details: sanitizeDetails(details) }
+        metadata: {
+          service_id: serviceId,
+          service_name: service.name,
+          user_id: req.user.uid,
+          user_phone: req.user.phone,
+          user_email: req.user.email,
+          customer_details: sanitizeDetails(details)
+        }
       })
     });
     const result = await response.json();
