@@ -20,7 +20,9 @@ const SERVICES = {
   admission: { name: 'Acceptance Fees', amount: 100000 },
   data: { name: 'Data Subscription', amount: 100000 },
   electricity: { name: 'Electricity Bills', amount: 100000 },
-  tv: { name: 'TV Subscriptions', amount: 100000 }
+  tv: { name: 'TV Subscriptions', amount: 100000 },
+  airtime: { name: 'Airtime Top-up', amount: 100000 },
+  other: { name: 'Other Bills', amount: 100000 }
 };
 
 /* ---------- Sign-in (Firebase Authentication) ---------- */
