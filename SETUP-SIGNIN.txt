@@ -1,29 +1,9 @@
-SIGN-IN UPDATE (Google + phone number)
+SIGN-IN UPDATE (Google only)
 
-FILES (upload to the repo, keeping these locations):
-  server.js          (repo root)  - REPLACE
-  package.json       (repo root)  - REPLACE (adds the "jose" package)
-  public/app.js                   - REPLACE
-  public/auth.js                  - NEW
+FILES: only public/auth.js changes in this pack (replace the one already in the repo).
+If you have not yet uploaded the earlier sign-in pack, upload these too:
+  server.js, package.json (repo root), public/app.js
 
-index.html does not need any change.
-
-FIREBASE SETUP
-1. console.firebase.google.com > Add project (Analytics can be off).
-2. Build > Authentication > Get started > Sign-in method:
-   - Enable Google (choose a support email).
-   - Enable Phone.
-3. Authentication > Settings > Authorized domains > Add domain:
-   maknazul-irfan-bill.vercel.app
-4. Project settings (gear icon) > General > Your apps > Web app (</>)
-   > register it > copy apiKey, authDomain, projectId, appId.
-
-VERCEL (Settings > Environment Variables), then Redeploy:
-  FIREBASE_API_KEY
-  FIREBASE_AUTH_DOMAIN
-  FIREBASE_PROJECT_ID
-  FIREBASE_APP_ID
-
-TEST WITHOUT SMS COST:
-  Authentication > Sign-in method > Phone > "Phone numbers for testing"
-  Add a fake number and a code, e.g. +2348012345678 / 123456.
+FIREBASE: Build > Authentication > Sign-in method: enable Google only.
+Authorized domains: add maknazul-irfan-bill.vercel.app
+VERCEL env vars: FIREBASE_API_KEY, FIREBASE_AUTH_DOMAIN, FIREBASE_PROJECT_ID, FIREBASE_APP_ID
