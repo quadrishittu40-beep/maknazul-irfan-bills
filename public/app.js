@@ -13,7 +13,9 @@
     'acceptance-fees': 'admission',
     'data': 'data',
     'electricity': 'electricity',
-    'tv': 'tv'
+    'tv': 'tv',
+    'airtime': 'airtime',
+    'other': 'other'
   };
 
   // Load the sign-in module (Google / phone number). It sets window.MaknazulAuth.
