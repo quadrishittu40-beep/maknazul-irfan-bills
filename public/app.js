@@ -16,6 +16,12 @@
     'tv': 'tv'
   };
 
+  // Load the sign-in module (Google / phone number). It sets window.MaknazulAuth.
+  var authLoaded = import('/auth.js').catch(function (err) {
+    console.error('Could not load sign-in:', err);
+    return null;
+  });
+
   function $(id) { return document.getElementById(id); }
 
   function esc(value) {
@@ -43,11 +49,16 @@
     }
   }
 
-  /* ---------- Local transaction history ---------- */
+  /* ---------- Local transaction history (kept per signed-in user) ---------- */
+
+  function storageKey() {
+    var auth = window.MaknazulAuth;
+    return STORAGE_KEY + '_' + (auth && auth.user ? auth.user.uid : 'guest');
+  }
 
   function loadTransactions() {
     try {
-      var list = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      var list = JSON.parse(localStorage.getItem(storageKey()) || '[]');
       return Array.isArray(list) ? list : [];
     } catch (e) {
       return [];
@@ -56,7 +67,7 @@
 
   function saveTransactions(list) {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(list.slice(0, 50)));
+      localStorage.setItem(storageKey(), JSON.stringify(list.slice(0, 50)));
     } catch (e) { /* storage unavailable */ }
   }
 
@@ -109,7 +120,7 @@
       '</tr></thead><tbody>' + rows + '</tbody></table>';
   }
 
-  /* ---------- Start a payment ---------- */
+  /* ---------- Start a payment (sign-in required) ---------- */
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -124,6 +135,26 @@
     }
     if (!serviceId) {
       setStatus('That service is not available in test mode yet. Please choose another one.');
+      return;
+    }
+
+    // Must be signed in
+    await authLoaded;
+    var auth = window.MaknazulAuth;
+    if (!auth) {
+      setStatus('Sign-in could not load. Check your connection and refresh the page.');
+      return;
+    }
+    await auth.ready;
+    if (!auth.configured) {
+      setStatus('Sign-in has not been set up on this site yet.');
+      auth.openLogin();
+      return;
+    }
+    var token = await auth.getToken();
+    if (!token) {
+      setStatus('Please sign in or create an account to make a payment.');
+      auth.openLogin();
       return;
     }
 
@@ -143,12 +174,17 @@
     try {
       var response = await fetch('/api/payments/initialize', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+        },
         body: JSON.stringify({ serviceId: serviceId, email: email, details: details })
       });
 
       var result = {};
       try { result = await response.json(); } catch (e) { /* non-JSON reply */ }
+
+      if (response.status === 401) auth.openLogin();
 
       if (!response.ok || !result.authorizationUrl) {
         throw new Error(
@@ -194,6 +230,10 @@
       statusEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
+    // Wait for the saved sign-in to be restored so history goes to the right user
+    await authLoaded;
+    if (window.MaknazulAuth) await window.MaknazulAuth.ready;
+
     try {
       var response = await fetch('/api/payments/verify/' + encodeURIComponent(reference));
       var result = await response.json();
@@ -224,6 +264,7 @@
   if (form) form.addEventListener('submit', handleSubmit);
 
   window.addEventListener('maknazul:refresh-history', renderHistory);
+  window.addEventListener('maknazul:auth-changed', renderHistory);
 
   renderHistory();
   verifyReturnedPayment();
