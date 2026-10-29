@@ -282,6 +282,19 @@
       background: #eaeaff;
     }
 
+    .service-icon.has-logo {
+      background: #ffffff !important;
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .service-icon img {
+      width: 44px;
+      height: 44px;
+      object-fit: contain;
+      display: block;
+    }
+
     .service-card h3 {
       margin: 0 0 5px;
       font-size: 17px;
@@ -606,7 +619,7 @@
 
         <div class="service-grid">
           <article class="service-card">
-            <div class="service-icon" aria-hidden="true">📘</div>
+            <div class="service-icon has-logo"><img src="/logos/waec.png" alt="WAEC logo"></div>
             <h3>WAEC</h3>
             <p>Examination PIN and related WAEC services.</p>
             <button class="button service-select" type="button" data-service="waec">
@@ -615,7 +628,7 @@
           </article>
 
           <article class="service-card">
-            <div class="service-icon" aria-hidden="true">🎓</div>
+            <div class="service-icon has-logo"><img src="/logos/jamb.png" alt="JAMB logo"></div>
             <h3>JAMB</h3>
             <p>JAMB-related examination and registration services.</p>
             <button class="button service-select" type="button" data-service="jamb">
@@ -624,7 +637,7 @@
           </article>
 
           <article class="service-card">
-            <div class="service-icon" aria-hidden="true">📝</div>
+            <div class="service-icon has-logo"><img src="/logos/neco.png" alt="NECO logo"></div>
             <h3>NECO / NABTEB</h3>
             <p>Choose a NECO or NABTEB examination service.</p>
             <button class="button service-select" type="button" data-service="neco">
@@ -809,6 +822,11 @@
         <a href="/refund.html" style="text-decoration: underline;">Refund Policy</a> ·
         <a href="/privacy.html" style="text-decoration: underline;">Privacy</a><br>
         📞 08084929862 · ✉️ maknazulirfanacademy@gmail.com<br>
+        <span style="display: block; max-width: 520px; margin: 8px auto 0;">
+          Maknazul 'Irfan Academy is an independent service provider and is not
+          affiliated with WAEC, JAMB, NECO or NABTEB. Logos belong to their
+          respective owners.
+        </span>
         © <span id="currentYear"></span> Maknazul 'Irfan Academy. All rights reserved.
       </footer>
     </main>
